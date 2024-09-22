@@ -77,6 +77,15 @@ CONFIG_OPENVPN_openssl_ENABLE_MULTIHOME=y
 CONFIG_OPENVPN_openssl_ENABLE_PF=y
 CONFIG_OPENVPN_openssl_ENABLE_PORT_SHARE=y
 CONFIG_OPENVPN_openssl_ENABLE_SMALL=y
+#Custom Packages
+CONFIG_PACKAGE_luci-app-openclash=y
+CONFIG_PACKAGE_luci-theme-argon=y
+CONFIG_PACKAGE_luci-app-argon-config=y
+CONFIG_PACKAGE_kmod-usb-storage-uas=y
+CONFIG_PACKAGE_luci-app-samba4=y
+CONFIG_PACKAGE_luci-app-diskman=y
+CONFIG_PACKAGE_luci-app-hd-idle=y
+#Standard Packages
 CONFIG_PACKAGE_acme=y
 CONFIG_PACKAGE_acme-acmesh=y
 CONFIG_PACKAGE_acme-acmesh-dnsapi=y
