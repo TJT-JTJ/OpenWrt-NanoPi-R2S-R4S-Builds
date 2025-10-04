@@ -20,6 +20,12 @@ git clone -b 1.1.8 https://github.com/stangri/luci-app-pbr.git
 #git clone https://github.com/stangri/source.openwrt.melmac.net stangri_repo
 cd ..
 
+# clone kenzok8 repos for specific packages
+rm -rf kenzok8_packages kenzok8_small
+git clone --depth=1 https://github.com/kenzok8/openwrt-packages.git kenzok8_packages
+git clone --depth=1 https://github.com/kenzok8/small.git kenzok8_small
+cd ..
+
 # install feeds
 cd openwrt
 ./scripts/feeds update -a
@@ -29,6 +35,21 @@ rm -rf feeds/packages/net/pbr/
 cp -R ../stangri_repo/pbr feeds/packages/net/
 rm -rf feeds/luci/applications/luci-app-pbr
 cp -R ../stangri_repo/luci-app-pbr feeds/luci/applications/
+
+# add kenzok8 packages (openclash, argon theme, argon config)
+# luci-app-openclash from kenzok8_small
+if [ -d "../kenzok8_small/luci-app-openclash" ]; then
+    mkdir -p package/custom
+    cp -R ../kenzok8_small/luci-app-openclash package/custom/
+fi
+
+# argon theme and config from kenzok8_packages
+if [ -d "../kenzok8_packages/luci-theme-argon" ]; then
+    cp -R ../kenzok8_packages/luci-theme-argon package/custom/
+fi
+if [ -d "../kenzok8_packages/luci-app-argon-config" ]; then
+    cp -R ../kenzok8_packages/luci-app-argon-config package/custom/
+fi
 
 # replace adguardhome with prebuilt latest version
 rm -rf feeds/packages/net/adguardhome
