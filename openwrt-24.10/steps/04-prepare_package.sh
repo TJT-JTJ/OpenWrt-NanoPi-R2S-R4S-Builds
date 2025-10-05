@@ -24,7 +24,6 @@ cd ..
 rm -rf kenzok8_packages kenzok8_small
 git clone --depth=1 https://github.com/kenzok8/openwrt-packages.git kenzok8_packages
 git clone --depth=1 https://github.com/kenzok8/small.git kenzok8_small
-cd ..
 
 # install feeds
 cd openwrt
