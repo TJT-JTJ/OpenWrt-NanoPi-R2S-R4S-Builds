@@ -59,7 +59,7 @@ cp -R $ROOTDIR/openwrt-$OPENWRT_BRANCH/patches/package/adguardhome feeds/package
 # Time stamp with $Build_Date=$(date +%Y.%m.%d)
 MANUAL_DATE="$(date +%Y.%m.%d) (manual build)"
 BUILD_STRING=${BUILD_STRING:-$MANUAL_DATE}
-echo "Write build date in openwrt : $BUILD_DATE"
+echo "Write build date in openwrt : $BUILD_STRING"
 echo -e '\nTJT-JTJ Build@'${BUILD_STRING}'\n'  >> package/base-files/files/etc/banner
 #sed -i '/DISTRIB_REVISION/d' package/base-files/files/etc/openwrt_release
 #echo "DISTRIB_REVISION='${BUILD_STRING}'" >> package/base-files/files/etc/openwrt_release
