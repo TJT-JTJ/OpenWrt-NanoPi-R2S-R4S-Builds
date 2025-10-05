@@ -43,5 +43,7 @@ cd ..
 mkdir -p etc/uci-defaults
 cat << "EOF" > etc/uci-defaults/99-local-ipks
 echo "src/gz local file:///ipks/" >> /etc/opkg/distfeeds.conf
+# Replace openwrt.org mirrors with China mirrors
+sed -i 's|downloads.openwrt.org|mirrors.tuna.tsinghua.edu.cn/openwrt|g' /etc/opkg/distfeeds.conf
 EOF
 
