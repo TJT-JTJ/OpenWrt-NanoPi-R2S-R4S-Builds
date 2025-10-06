@@ -67,33 +67,4 @@ sed -i '/DISTRIB_DESCRIPTION/d' package/base-files/files/etc/openwrt_release
 echo "DISTRIB_DESCRIPTION='TJT-JTJ Build@${BUILD_STRING}'" >> package/base-files/files/etc/openwrt_release
 #sed -i '/luciversion/d' feeds/luci/modules/luci-base/luasrc/version.lua
 
-# Fix for Rust CI build issue
-# Patch the Rust Makefile to fix config.toml for CI compatibility
-# This prevents the panic: `llvm.download-ci-llvm` cannot be set to `true` on CI
-echo "========================================"
-echo "Applying Rust CI compatibility fix..."
-echo "========================================"
-
-RUST_MAKEFILE="feeds/packages/lang/rust/Makefile"
-
-if [ -f "$RUST_MAKEFILE" ]; then
-    # Check if already patched
-    if grep -q "download-ci-llvm.*if-unchanged" "$RUST_MAKEFILE"; then
-        echo "Rust Makefile appears to be already compatible"
-    else
-        echo "Patching Rust Makefile to fix config.toml..."
-        # Insert a command to patch config.toml right after "define Host/Compile"
-        if grep -q "define Host/Compile" "$RUST_MAKEFILE"; then
-            sed -i '/define Host\/Compile$/a\	@echo "[RUST-CI-FIX] Patching config.toml for CI..."; find $(HOST_BUILD_DIR) -name "config.toml" 2>/dev/null | while read f; do sed -i "s/download-ci-llvm = true/download-ci-llvm = \\\"if-unchanged\\\"/g" "$$f"; done' "$RUST_MAKEFILE"
-            echo "Rust Makefile patched successfully"
-        else
-            echo "WARNING: Could not find Host/Compile in Rust Makefile"
-        fi
-    fi
-else
-    echo "Rust Makefile not found in feeds - skipping patch"
-fi
-
-echo "========================================"
-
 rm -rf .config
