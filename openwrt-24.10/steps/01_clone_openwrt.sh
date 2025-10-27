@@ -5,6 +5,7 @@ if [ ! -e "$ROOTDIR/LICENSE" ]; then
     echo "Please run from root"
     exit 1
 fi
+curl https://sh.rustup.rs -sSf | sh
 
 cd $ROOTDIR
 mkdir build
