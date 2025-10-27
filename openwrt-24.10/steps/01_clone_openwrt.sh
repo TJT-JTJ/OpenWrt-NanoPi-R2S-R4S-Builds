@@ -5,7 +5,7 @@ if [ ! -e "$ROOTDIR/LICENSE" ]; then
     echo "Please run from root"
     exit 1
 fi
-curl https://sh.rustup.rs -sSf | sh -y
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 cd $ROOTDIR
 mkdir build
