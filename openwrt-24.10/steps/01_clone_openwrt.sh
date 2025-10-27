@@ -12,7 +12,7 @@ cd build
 
 OPENWRT_FOLDER=openwrt-fresh-24.10
 
-git clone -b openwrt-24.10 --single-branch https://git.openwrt.org/openwrt/openwrt.git $OPENWRT_FOLDER
+git clone -b openwrt-24.10 --single-branch https://github.com/openwrt/openwrt $OPENWRT_FOLDER
 #git clone --single-branch https://git.openwrt.org/openwrt/openwrt.git $OPENWRT_FOLDER
 
 cd $OPENWRT_FOLDER
