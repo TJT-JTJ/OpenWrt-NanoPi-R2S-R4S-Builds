@@ -35,11 +35,29 @@ cp -R ../stangri_repo/pbr feeds/packages/net/
 rm -rf feeds/luci/applications/luci-app-pbr
 cp -R ../stangri_repo/luci-app-pbr feeds/luci/applications/
 
-# add kenzok8 packages (openclash, argon theme, argon config)
+# replace adguardhome with prebuilt latest version
+rm -rf feeds/packages/net/adguardhome
+cp -R $ROOTDIR/openwrt-$OPENWRT_BRANCH/patches/package/adguardhome feeds/packages/net/
+
+./scripts/feeds update -i && ./scripts/feeds install -a
+
+# add kenzok8 packages (openclash, argon theme, argon config, mosdns, smartdns)
+mkdir -p package/custom
+
 # luci-app-openclash from kenzok8_small
 if [ -d "../kenzok8_small/luci-app-openclash" ]; then
-    mkdir -p package/custom
     cp -R ../kenzok8_small/luci-app-openclash package/custom/
+fi
+
+# mosdns from kenzok8_small
+if [ -d "../kenzok8_small/mosdns" ]; then
+    cp -R ../kenzok8_small/mosdns package/custom/
+fi
+if [ -d "../kenzok8_small/luci-app-mosdns" ]; then
+    cp -R ../kenzok8_small/luci-app-mosdns package/custom/
+fi
+if [ -d "../kenzok8_small/v2dat" ]; then
+    cp -R ../kenzok8_small/v2dat package/custom/
 fi
 
 # argon theme and config from kenzok8_packages
@@ -50,11 +68,13 @@ if [ -d "../kenzok8_packages/luci-app-argon-config" ]; then
     cp -R ../kenzok8_packages/luci-app-argon-config package/custom/
 fi
 
-# replace adguardhome with prebuilt latest version
-rm -rf feeds/packages/net/adguardhome
-cp -R $ROOTDIR/openwrt-$OPENWRT_BRANCH/patches/package/adguardhome feeds/packages/net/
-
-./scripts/feeds update -i && ./scripts/feeds install -a
+# smartdns from kenzok8_small
+if [ -d "../kenzok8_small/smartdns" ]; then
+    cp -R ../kenzok8_small/smartdns package/custom/
+fi
+if [ -d "../kenzok8_small/luci-app-smartdns" ]; then
+    cp -R ../kenzok8_small/luci-app-smartdns package/custom/
+fi
 
 # Time stamp with $Build_Date=$(date +%Y.%m.%d)
 MANUAL_DATE="$(date +%Y.%m.%d) (manual build)"
