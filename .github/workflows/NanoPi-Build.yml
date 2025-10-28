@@ -116,6 +116,17 @@ jobs:
     
     - name: Prepare package
       run: ./openwrt-$OPENWRT_BRANCH/steps/04-prepare_package.sh
+
+    - name: Patch Rust bootstrap for CI (OpenWrt 24.x)
+      if: startsWith(env.OPENWRT_BRANCH, '24')
+      run: |
+        RUST_MAKEFILE="build/openwrt/feeds/packages/lang/rust/Makefile"
+        if [ -f "$RUST_MAKEFILE" ] && grep -q 'llvm.download-ci-llvm' "$RUST_MAKEFILE"; then
+          sed -i -E 's/llvm\.download-ci-llvm\s*=\s*"?true"?/llvm.download-ci-llvm = "false"/' "$RUST_MAKEFILE" || true
+          echo '[PATCH] Set llvm.download-ci-llvm = "false" ✅'
+        else
+          echo '[SKIP] rust Makefile not found or no matching line; skipping'
+        fi
     
     - name: Add ACL
       run: ./openwrt-$OPENWRT_BRANCH/steps/05-create_luci_acl.sh
