@@ -121,11 +121,20 @@ jobs:
       if: startsWith(env.OPENWRT_BRANCH, '24')
       run: |
         RUST_MAKEFILE="build/openwrt/feeds/packages/lang/rust/Makefile"
-        if [ -f "$RUST_MAKEFILE" ] && grep -q 'llvm.download-ci-llvm' "$RUST_MAKEFILE"; then
-          sed -i -E 's/llvm\.download-ci-llvm\s*=\s*"?true"?/llvm.download-ci-llvm = "false"/' "$RUST_MAKEFILE" || true
-          echo '[PATCH] Set llvm.download-ci-llvm = "false" ✅'
+        if [ -f "$RUST_MAKEFILE" ]; then
+          echo "[DEBUG] Rust Makefile found at: $RUST_MAKEFILE"
+          if grep -q 'download-ci-llvm' "$RUST_MAKEFILE"; then
+            echo "[DEBUG] Found download-ci-llvm configuration in Makefile"
+            grep 'download-ci-llvm' "$RUST_MAKEFILE" || true
+            # Patch the Rust Makefile to disable CI LLVM download
+            sed -i -E 's/(download-ci-llvm[[:space:]]*=[[:space:]]*)(true|"true")/\1false/g' "$RUST_MAKEFILE"
+            echo '[PATCH] Set download-ci-llvm = false ✅'
+            grep 'download-ci-llvm' "$RUST_MAKEFILE" || true
+          else
+            echo '[INFO] No download-ci-llvm configuration found in Makefile'
+          fi
         else
-          echo '[SKIP] rust Makefile not found or no matching line; skipping'
+          echo '[SKIP] Rust Makefile not found at expected path'
         fi
     
     - name: Add ACL
