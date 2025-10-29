@@ -41,24 +41,8 @@ cp -R $ROOTDIR/openwrt-$OPENWRT_BRANCH/patches/package/adguardhome feeds/package
 
 ./scripts/feeds update -i && ./scripts/feeds install -a
 
-# add kenzok8 packages (openclash, argon theme, argon config, smartdns)
+# add kenzok8 packages (argon theme, argon config, smartdns)
 mkdir -p package/custom
-
-# luci-app-openclash from kenzok8_small
-if [ -d "../kenzok8_small/luci-app-openclash" ]; then
-    cp -R ../kenzok8_small/luci-app-openclash package/custom/
-fi
-
-# mosdns packages removed due to Go 1.24 requirement (only Go 1.23.12 available)
-# if [ -d "../kenzok8_small/mosdns" ]; then
-#     cp -R ../kenzok8_small/mosdns package/custom/
-# fi
-# if [ -d "../kenzok8_small/luci-app-mosdns" ]; then
-#     cp -R ../kenzok8_small/luci-app-mosdns package/custom/
-# fi
-# if [ -d "../kenzok8_small/v2dat" ]; then
-#     cp -R ../kenzok8_small/v2dat package/custom/
-# fi
 
 # argon theme and config from kenzok8_packages
 if [ -d "../kenzok8_packages/luci-theme-argon" ]; then
